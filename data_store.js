@@ -14,6 +14,12 @@ module.exports = {
 
   get_all_books() {
     return global
+  },
+
+  get_book_by_id(id) {
+    let book = JSON.parse(global)
+    let result = book.find(x => x.id === id)
+    return result// ? result : undefined
   }
 
 }

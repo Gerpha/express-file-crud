@@ -1,5 +1,6 @@
 const fs = require('fs')
 let global = null
+var LAST_ID;
 
 module.exports = {
 
@@ -9,6 +10,7 @@ module.exports = {
         throw err
       }
       global = data
+      LAST_ID = Math.max(...global)
     })
   },
 
@@ -20,6 +22,19 @@ module.exports = {
     let book = JSON.parse(global)
     let result = book.find(x => x.id === id)
     return result ? result : undefined
-  }
+  },
 
-}
+  write_to_file() {
+    fs.writeFile('./db/data.json', global, 'utf8', (err, data) => {
+      if (err) {
+        throw err
+      }
+      return global
+    })
+  },
+
+//   add_book(obj) {
+//     obj.id = LAST_ID + 1
+//   }
+//
+// }

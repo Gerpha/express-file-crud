@@ -9,9 +9,9 @@ module.exports = {
       if (err) {
         throw err
       }
-      global = data
-      LAST_ID = Math.max(...global)
-    })
+      global = JSON.parse(data)
+      LAST_ID = Math.max.apply(Math, global.map(global => global.id));
+      })
   },
 
   get_all_books() {
@@ -19,7 +19,7 @@ module.exports = {
   },
 
   get_book_by_id(id) {
-    let book = JSON.parse(global)
+    let book = global
     let result = book.find(x => x.id === id)
     return result ? result : undefined
   },
@@ -33,8 +33,25 @@ module.exports = {
     })
   },
 
-//   add_book(obj) {
-//     obj.id = LAST_ID + 1
-//   }
-//
-// }
+  add_book(obj) {
+    obj = {}
+    obj.id = LAST_ID + 1
+    let book = obj
+    write_to_file(book)
+  },
+
+  update_book(id, obj) {
+    let book = global
+    let result = book.find(x => x.id === id)
+    return result ? result : undefined
+
+  },
+
+  delete_book(id) {
+    let book = global
+    let result = book.find(x => x.id === id)
+    return result ? result : undefined
+
+  }
+
+}
